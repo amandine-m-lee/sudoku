@@ -8,9 +8,9 @@ class Board(object):
 
     def __init__(self):
 
-        self.cols = [Column(i) for i in xrange(9)]
-        self.rows = [Row(i) for i in xrange(9)]
-        self.boxes = [Box(i) for i in xrange(9)]
+        self.cols = [Column(i) for i in range(9)]
+        self.rows = [Row(i) for i in range(9)]
+        self.boxes = [Box(i) for i in range(9)]
 
 
         pass
@@ -18,8 +18,8 @@ class Board(object):
     def print_board(self):
         print('-'*20)
         colnum = 0
-        for _ in xrange(3):
-            for _ in xrange(3):
+        for _ in range(3):
+            for _ in range(3):
                 subrows = [join(self.cols[colnum].nums[i:i+3]) for i in range(3)]
                 print('|' + '|'.join(subrows) + '|')
                 colnum += 1 
@@ -41,19 +41,19 @@ class Unit(object):
 
 class Box(Unit):
 
-    def __init__(self, index, start_nums=[0 for _ in xrange(9)]):
+    def __init__(self, index, start_nums=[0 for _ in range(9)]):
         super().__init__(start_nums)
         self.index = index
 
 class Row(Unit):
     
-    def __init__(self, rownum, start_nums=[0 for _ in xrange(9)]):
+    def __init__(self, rownum, start_nums=[0 for _ in range(9)]):
         super().__init__(start_nums)
         self.index = rownum #Needs to be within 0 and 8
 
 class Column(Unit):
 
-    def __init__(self, colnum, start_nums=[0 for _ in xrange(9)]):
+    def __init__(self, colnum, start_nums=[0 for _ in range(9)]):
         super().__init__(start_nums)
         self.index = colnum #Needs to be between 0 and 8
 
