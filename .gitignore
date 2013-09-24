@@ -1,3 +1,6 @@
+#Swap files
+*\.sw.*
+
 *.py[cod]
 
 # C extensions
