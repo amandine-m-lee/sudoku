@@ -16,7 +16,7 @@ class Board(object):
         pass
 
     def print_board(self):
-        print('-'*19)
+        out = ('-'*19)
         colnum = 0
         for _ in range(3):
             for _ in range(3):
@@ -32,6 +32,7 @@ class Unit(object):
     def __init__(self, start_nums):
         self.nums = start_nums
 
+
     def free(num):
         return num not in self.nums
 
@@ -45,17 +46,26 @@ class Box(Unit):
         super().__init__(start_nums)
         self.index = index
 
+    def __repr__(self):
+        return '\n'.join([' '.join(map(str, self.nums[i:i+3])) for i in range(3)])
+
 class Row(Unit):
     
     def __init__(self, rownum, start_nums=[0 for _ in range(9)]):
         super().__init__(start_nums)
         self.index = rownum #Needs to be within 0 and 8
 
+    def __repr__(self):
+        return ' '.join(map(str, self.nums))
+
 class Column(Unit):
 
     def __init__(self, colnum, start_nums=[0 for _ in range(9)]):
         super().__init__(start_nums)
         self.index = colnum #Needs to be between 0 and 8
+
+    def __repr__(self):
+        return '\n'.join(map(str, self.nums))
 
 """Questions/Thoughts:
     - Should I make my own error for when a number does not work?
