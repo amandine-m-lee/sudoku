@@ -16,15 +16,15 @@ class Board(object):
         pass
 
     def print_board(self):
-        print('-'*20)
+        print('-'*19)
         colnum = 0
         for _ in range(3):
             for _ in range(3):
-                subrows = [join(self.cols[colnum].nums[i:i+3]) for i in range(3)]
+                subrows = [' '.join(map(str, self.cols[colnum].nums[i:i+3])) for i in range(3)]
                 print('|' + '|'.join(subrows) + '|')
                 colnum += 1 
 
-            print('-'*20)
+            print('-'*19)
 
 
 
