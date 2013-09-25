@@ -1,5 +1,5 @@
 #Swap files
-*\.sw.*
+*sw[po]
 
 *.py[cod]
 
