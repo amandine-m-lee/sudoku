@@ -27,17 +27,17 @@ class Board(object):
                         self.add_number(n, x, y)
 
 
-    """def print_board(self):
+    def print_board(self):
         print('-'*19)
         rownum = 0
         for _ in range(3):
             for _ in range(3):
-                subrows = [' '.join(map(str, self.row[rownum].nums[i:i+3])) \
+                subrows = [' '.join(map(str, self.grid[rownum][i:i+3])) \
                         for i in range(3)]
                 print('|' + '|'.join(subrows) + '|')
                 rownum += 1 
 
-            print('-'*19)"""
+            print('-'*19)
 
 
     def add_number(self, num, row, col):
@@ -58,7 +58,7 @@ class Board(object):
             self.cols[col].remove(num)
             self.rows[row].remove(num)
             self.boxes[row//3][col//3].remove(num)
-            self.gric
+            self.grid[row][col] = 0
         return num # I like the idea of returning it like pop 
 
 
@@ -84,24 +84,24 @@ class Box(Unit):
     def __init__(self, boxrow, boxcol, start_nums=[]):
         super().__init__((boxrow, boxcol), start_nums)
 
-    def __repr__(self):
-        return "Box {} containing {}".format(self.index, self.nums)
+#    def __repr__(self):
+ #       return "Box {} containing {}".format(self.index, self.nums)
 
 class Row(Unit):
     
     def __init__(self, rownum, start_nums=[]):
-        super().__init__(start_nums, rownum)
+        super().__init__(rownum, start_nums)
 
-    def __repr__(self):
-        return "Row {} containing {}".format(self.index, self.nums)
+  #  def __repr__(self):
+   #     return "Row {}".format(self.index, self.nums)
 
 class Column(Unit):
 
     def __init__(self, colnum, start_nums=[]):
-        super().__init__(start_nums)
+        super().__init__(colnum, start_nums)
 
-    def __repr__(self):
-        return "Column {} containing {}".format(self.nums)
+ #   def __repr__(self):
+  #      return "Column {} containing {}".format(self.nums)
 
 """Questions/Thoughts:
     - Should I make my own error for when a number does not work?
@@ -112,7 +112,8 @@ class Column(Unit):
     - Refactor where type is just a member of unit? Really they are the same. maybe I'll went different print methods though
     - Generate my own sudoku boards?
     - I could keep a 9x9 simple list to hold the numbers... or I could rely on Column and Row being implemented 
-      correctly, and just use one of them. Let's start with """
+      correctly, and just use one of them. Let's start with
+    - A little silly to have the index be a member... but it would be nice to be able to distinguish them by more than their index in the arrays. """
 
 
 
