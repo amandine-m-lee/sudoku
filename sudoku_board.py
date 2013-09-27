@@ -49,15 +49,18 @@ class Board(object):
             raise SudokuValueError
         elif row not in range(9) or col not in range(9):
             raise SudokuIndexError
+        elif self.grid[row][col]!=0:
+            raise SudokuUniquenessError('Space ({},{}) is already occupied'.format(row_label, col_label))
         else:
             self.grid[row][col] = num
             self.cols[col].add(num)
             self.rows[row].add(num)
             self.boxes[row//3][col//3].add(num)
-            self.possible[x][y] = set(n) #Doesn't necessarily have to be a set. 
+            self.possible[row][col] = set(n) #Doesn't necessarily have to be a set. 
 
 
     def remove_number(self, row_label, col_label):
+        '''Should I be able to do this? Shouldn't it be stuck forever?'''
         row = row_label - 1
         col = col_label - 1
 
