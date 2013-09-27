@@ -32,7 +32,7 @@ class Board(object):
         rownum = 0
         for _ in range(3):
             for _ in range(3):
-                subrows = [' '.join(map(str, self.grid[rownum][i:i+3])) \
+                subrows = [' '.join(map(str, self.grid[rownum][3*i:3*i+3])) \
                         for i in range(3)]
                 print('|' + '|'.join(subrows) + '|')
                 rownum += 1 
@@ -61,16 +61,23 @@ class Board(object):
             self.grid[row][col] = 0
         return num # I like the idea of returning it like pop 
 
+    def valid_play(self, num, row, col):
+        return self.cols[col].free(num) and self.row[row].free(num) \
+                and self.boxes[row//3][col//3].free(num)
+
+    def deem_impossible(self, num, row, col):
+        self.possible[row][col].remove(num)
+
 
 class Unit(object):
     def __init__(self, ind, start_nums):
         self.nums = set(start_nums)
         self.index = ind
 
-    def free(num):
+    def free(self, num):
         return num not in self.nums
 
-    def add(num):
+    def add(self, num):
         if num in self.nums:
             raise SudokuUniquenessError("{} not unique".format(num)) 
         else:
