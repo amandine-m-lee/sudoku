@@ -18,6 +18,7 @@ class Board(object):
         self.cols = [Column(i) for i in range(9)]
         self.rows = [Row(i) for i in range(9)]
         self.boxes = [[Box(i, j) for i in range(3)] for j in range(3)]
+        self.possible = [[set(range(1,10)) for _ in range(9)] for _ in range(10)]
 
         if start_board is not None: #Could refactor this probably. 
             for x in range(9):
@@ -51,6 +52,8 @@ class Board(object):
             self.cols[col].add(num)
             self.rows[row].add(num)
             self.boxes[row//3][col//3].add(num)
+            self.possible[x][y] = set(n) #Doesn't necessarily have to be a set. 
+
 
     def remove_number(self, row, col):
         num = self.grid[row][col]
@@ -85,6 +88,9 @@ class Unit(object):
 
     def remove(self, num):
         self.nums.remove(num)
+
+    def remaining(self):
+        return set(range(1,10)).difference(self.nums)
 
 class Box(Unit):
 
