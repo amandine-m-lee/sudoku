@@ -8,7 +8,7 @@ def test_column():
 
 
 @pytest.fixture
-def sample_board():
+def sb():
     array = [[0,0,3,0,0,0,0,2,5],
              [4,0,0,0,9,0,0,7,0],
              [6,0,8,7,0,5,9,0,3],
@@ -21,6 +21,23 @@ def sample_board():
 
     return Board(array)
 
-def test_board(sample_board):
-    sample_board.add(1,2,1)
-    
+def test_add_number(sb):
+    sb.add_number(7,9,5)
+    assert sb.grid[8][4] == 7
+    assert 7 in sb.cols[8].nums
+    assert 7 in sb.rows[4].nums
+    assert 7 in sb.boxes[2][1].nums
+    assert sb.possible[8][4] == set([7])
+
+def test_add_number_exceptions(sb):
+    with pytest.raises(SudokuIndexError):
+        sb.add_number(4,10,2)
+    with pytest.raises(SudokuValueError):
+        sb.add_number(-5,3,4)
+    with pytest.raises(SudokuUniquenessError):
+        sb.add_number(4,1,2)#The box
+    with pytest.raises(SudokuUniquenessError):
+        sb.add_number(3,1,1) #The column
+    with pytest.raises(SudokuUniquenessError):
+        sb.add_number(5,1,1)
+
