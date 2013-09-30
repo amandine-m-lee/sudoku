@@ -93,7 +93,7 @@ class Unit(object):
 
     def add(self, num):
         if num in self.nums:
-            raise SudokuUniquenessError("{} not unique".format(num)) 
+            raise SudokuUniquenessError 
         else:
             self.nums.add(num)
 
@@ -107,23 +107,25 @@ class Box(Unit):
 
     def __init__(self, boxrow, boxcol, start_nums=[]):
         super().__init__((boxrow, boxcol), start_nums)
-    
-    def add(self, num):
-        super().add(num)
-        if len(self.nums) == 9:
-            print('Box {} is full!'.format(self.ind))
 
+    def add(self, num):
+        try:
+            super().add(num)
+        except SudokuUniquenessError:
+            raise SudokuUniquenessError('Box {} already contains {}'.format(self.index, num))
+    
 
 class Row(Unit):
     
     def __init__(self, rownum, start_nums=[]):
         super().__init__(rownum, start_nums)
 
-
     def add(self, num):
-        super().add(num)
-        if len(self.nums) == 9:
-            print('Row {} is full!'.format(self.ind))
+        try:
+            super().add(num)
+        except SudokuUniquenessError as e:
+            raise SudokuUniquenessError('Row {} already contains {}'.format(self.index, num))
+
 
 class Column(Unit):
 
@@ -131,10 +133,10 @@ class Column(Unit):
         super().__init__(colnum, start_nums)
 
     def add(self, num):
-        super().add(num)
-        if len(self.nums) == 9:
-            print('Column {} is full!'.format(self.ind))
-
+        try:
+            super().add(num)
+        except SudokuUniquenessError as e:
+            raise SudokuUniquenessError('Column {} already contains {}'.format(self.index, num))
 
 
 """Questions/Thoughts:
@@ -145,7 +147,8 @@ class Column(Unit):
     - A little silly to have the index be a member... but it would be nice to be able to distinguish them by more than their index in the arrays. 
     - By one argument, the possibilities should be factored into the AI, the board itself should only add, remove, and check for validity. 
     - Do I want the board to _play_... no i think the player should play ?
-    - Pay more attention to where I throw exceptions..."""
+    - Pay more attention to where I throw exceptions...
+    - Check that starter board is valid"""
 
 
 
