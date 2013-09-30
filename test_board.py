@@ -58,5 +58,19 @@ def test_remove_number(sb):
     assert 4 not in sb.boxes[0][0].nums
     
 def test_valid_play(sb):
-    assert sb.valid_play(1,1,1) is True
-    assert sb.valid_play(3,1,1) is False
+    assert sb.valid_play(1,1,1)
+    assert not sb.valid_play(3,1,1)
+
+def test_is_solved(sb):
+    assert not sb.is_solved()
+    b = Board([[0,2,7,1,5,4,3,9,6],
+               [9,6,5,3,2,7,1,4,8],
+               [3,4,1,6,8,9,7,5,2],
+               [5,9,3,4,6,8,2,7,1],
+               [4,7,2,5,1,3,6,8,9],
+               [6,1,8,9,7,2,4,3,5],
+               [7,8,6,2,3,5,9,1,4],
+               [1,5,4,7,9,6,8,2,3],
+               [2,3,9,8,4,1,5,6,7]])
+    b.add_number(8,1,1)
+    assert b.is_solved()
