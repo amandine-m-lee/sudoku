@@ -37,7 +37,6 @@ def test_add_number(sb):
     assert 7 in sb.cols[8].nums
     assert 7 in sb.rows[4].nums
     assert 7 in sb.boxes[2][1].nums
-    assert sb.possible[8][4] == set([7])
 
 def test_add_number_exceptions(sb):
     with pytest.raises(SudokuIndexError):
@@ -51,3 +50,5 @@ def test_add_number_exceptions(sb):
     with pytest.raises(SudokuUniquenessError):
         sb.add_number(5,1,1)
 
+def test_remove_number(sb):
+    pass
