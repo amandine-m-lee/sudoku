@@ -73,7 +73,7 @@ class Board(object):
         row = row_label - 1
         col = col_label - 1
 
-        return self.cols[col].free(num) and self.row[row].free(num) \
+        return self.cols[col].free(num) and self.rows[row].free(num) \
                 and self.boxes[row//3][col//3].free(num)
 
     def is_solved(self):
@@ -107,25 +107,35 @@ class Box(Unit):
 
     def __init__(self, boxrow, boxcol, start_nums=[]):
         super().__init__((boxrow, boxcol), start_nums)
+    
+    def add(self, num):
+        super().add(num)
+        if len(self.nums) == 9:
+            print('Box {} is full!'.format(self.ind))
 
-#    def __repr__(self):
- #       return "Box {} containing {}".format(self.index, self.nums)
 
 class Row(Unit):
     
     def __init__(self, rownum, start_nums=[]):
         super().__init__(rownum, start_nums)
 
-  #  def __repr__(self):
-   #     return "Row {}".format(self.index, self.nums)
+
+    def add(self, num):
+        super().add(num)
+        if len(self.nums) == 9:
+            print('Row {} is full!'.format(self.ind))
 
 class Column(Unit):
 
     def __init__(self, colnum, start_nums=[]):
         super().__init__(colnum, start_nums)
 
- #   def __repr__(self):
-  #      return "Column {} containing {}".format(self.nums)
+    def add(self, num):
+        super().add(num)
+        if len(self.nums) == 9:
+            print('Column {} is full!'.format(self.ind))
+
+
 
 """Questions/Thoughts:
     - Refactor where type is just a member of unit? Really they are the same. maybe I'll went different print methods though

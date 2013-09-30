@@ -51,4 +51,12 @@ def test_add_number_exceptions(sb):
         sb.add_number(5,1,1)
 
 def test_remove_number(sb):
-    pass
+    assert sb.remove_number(2,1) == 4
+    assert sb.grid[1][0] == 0
+    assert 4 not in sb.cols[0].nums
+    assert 4 not in sb.rows[1].nums
+    assert 4 not in sb.boxes[0][0].nums
+    
+def test_valid_play(sb):
+    assert sb.valid_play(1,1,1) is True
+    assert sb.valid_play(3,1,1) is False
