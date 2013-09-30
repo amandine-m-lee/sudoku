@@ -56,7 +56,7 @@ class Board(object):
             self.cols[col].add(num)
             self.rows[row].add(num)
             self.boxes[row//3][col//3].add(num)
-            self.possible[row][col] = set(n) #Doesn't necessarily have to be a set. 
+            self.possible[row][col] = set([num]) #Doesn't necessarily have to be a set. 
 
 
     def remove_number(self, row_label, col_label):

@@ -2,7 +2,17 @@ from sudoku_board import *
 import pytest
 
 def test_unit():
-    pass
+    u = Unit()
+    u.add(4)
+    assert 4 in u.nums
+    u.remove(4)
+    assert 4 not in u.nums
+    u1 = Unit(1,[5,4,3])
+    u1.add(6)
+    with pytest.raises(SudokuUniquenessError):
+        u1.add(3)
+    assert u1.remaining() == set([1,2,7,8,9]) #Make more flexible - any size set?
+        
 def test_column():
     pass
 
