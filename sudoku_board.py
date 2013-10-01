@@ -11,10 +11,14 @@ class SudokuValueError(Exception):
 class SudokuIndexError(Exception):
     pass
 
+class SudokuNonRemovableError(Exception):
+    pass
+
 class Board(object):
 
     def __init__(self, start_board=None): #start_board should be a 9x9 array with 0 as a placeholder
         self.grid = [[0 for _ in range(9)] for _ in range(9)]
+        self.removable = [[True for _ in range(9)] for _ in range(9)]
         self.cols = [Column(i) for i in range(1, 10)]
         self.rows = [Row(i) for i in range(1, 10)]
         self.boxes = [[Box(i, j) for i in range(1,4)] for j in range(1,4)]
@@ -25,6 +29,7 @@ class Board(object):
                     n = start_board[x][y]
                     if n != 0:
                         self.add_number(n, x+1, y+1)
+                        self.removable[x][y] = False
 
 
     def print_board(self):
@@ -61,13 +66,16 @@ class Board(object):
         row = row_label - 1
         col = col_label - 1
 
-        num = self.grid[row][col]
-        if num != 0:#throw excpetion if it's already 0?
-            self.cols[col].remove(num)
-            self.rows[row].remove(num)
-            self.boxes[row//3][col//3].remove(num)
-            self.grid[row][col] = 0
-        return num # I like the idea of returning it like pop 
+        if self.removable[row][col]:
+            num = self.grid[row][col]
+            if num != 0:#throw excpetion if it's already 0?
+                self.cols[col].remove(num)
+                self.rows[row].remove(num)
+                self.boxes[row//3][col//3].remove(num)
+                self.grid[row][col] = 0
+            return num # I like the idea of returning it like pop 
+        else:
+            raise SudokuNonRemovableError
 
     def valid_play(self, num, row_label, col_label):
         row = row_label - 1
