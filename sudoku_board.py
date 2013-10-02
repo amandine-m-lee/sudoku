@@ -82,7 +82,11 @@ class Board(object):
         col = col_label - 1
 
         return self.cols[col].free(num) and self.rows[row].free(num) \
-                and self.boxes[row//3][col//3].free(num)
+                and self.boxes[row//3][col//3].free(num) \
+                and self.cell_open(row_label, col_label)
+
+    def cell_open(self, row_label, col_label):
+        return self.grid[row_label-1][col_label-1] == 0
 
     def is_solved(self):
         #Sort of brutish way of doing this:

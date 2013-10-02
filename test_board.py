@@ -63,6 +63,9 @@ def test_remove_number(sb):
 def test_valid_play(sb):
     assert sb.valid_play(1,1,1)
     assert not sb.valid_play(3,1,1)
+    assert not sb.valid_play(7,1,3)
+    assert sb.cell_open(1,5)
+    assert not sb.cell_open(1,9)
 
 def test_is_solved(sb):
     assert not sb.is_solved()
