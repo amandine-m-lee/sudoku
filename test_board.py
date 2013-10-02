@@ -31,7 +31,7 @@ def sb():
 
     return Board(array)
 
-def test_add_number(sb):
+def test_add_number(sb): #if you think about it, these test aren't really naive to my implementation... 
     sb.add_number(7,9,5)
     assert sb.grid[8][4] == 7
     assert 7 in sb.cols[8].nums
@@ -51,11 +51,14 @@ def test_add_number_exceptions(sb):
         sb.add_number(5,1,1)
 
 def test_remove_number(sb):
-    assert sb.remove_number(2,1) == 4
-    assert sb.grid[1][0] == 0
-    assert 4 not in sb.cols[0].nums
-    assert 4 not in sb.rows[1].nums
-    assert 4 not in sb.boxes[0][0].nums
+    sb.add_number(1,1,1)
+    assert sb.remove_number(1,1) == 1
+    assert sb.grid[1][1] == 0
+    assert 1 not in sb.cols[0].nums
+    assert 1 not in sb.rows[0].nums
+    assert 1 not in sb.boxes[0][0].nums
+    with pytest.raises(SudokuNonRemovableError):
+        sb.remove_number(2,1)
     
 def test_valid_play(sb):
     assert sb.valid_play(1,1,1)
@@ -74,3 +77,4 @@ def test_is_solved(sb):
                [2,3,9,8,4,1,5,6,7]])
     b.add_number(8,1,1)
     assert b.is_solved()
+ 
