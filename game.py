@@ -26,15 +26,13 @@ class Game(object):
         print("You solved the sudoku!!!")
 
 if __name__ == '__main__':
+    from sys import argv
+    from sample_boards import *
+    if len(argv) == 1:
+        g = Game(b1)
+    else:
+        script, board = argv
+        g = Game(eval(board))
 
-    g = Game(Board([[0,0,3,0,0,0,0,2,5],
-             [4,0,0,0,9,0,0,7,0],
-             [6,0,8,7,0,5,9,0,3],
-             [8,6,0,0,1,7,0,0,0],
-             [2,0,0,0,3,0,0,0,7],
-             [0,0,0,9,2,0,0,6,4],
-             [3,0,1,4,0,9,7,0,2],
-             [0,7,0,0,5,0,0,0,8],
-             [5,4,0,0,0,0,6,0,0]]))
     g.play()
 
