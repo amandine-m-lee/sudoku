@@ -10,10 +10,10 @@ class DFSPlayer(object):
     def __init__(self, board):
         self.board = board
         self.plays = [] #This can actually act like a log now
-        self.tracker = [self.poss(1,1,self.board)] #our stack of generators!
         self.open_cells = self.get_open_cells(self.board)
         self.cell_index = 0
         self.cur_row, self.cur_col = self.open_cells[0]
+        self.tracker = [self.poss(self.cur_row, self.cur_col, self.board)]
 
     def next_play(self):
         self.board.print_board()   
@@ -40,7 +40,7 @@ class DFSPlayer(object):
                 self.board.print_board()
                 break
             except NoSolutions:
-                print("BOARD NOT SOLVABLE :(")
+                print("BOARD NOT SOLVABLE :( tried {} steps".format(len(self.plays)))
                 break
 
     def increment_coord(self): #This might be better refactored as a list with an index that scrolls back and forth. 
@@ -74,10 +74,16 @@ class DFSPlayer(object):
     #If it does't have nxt, then wahta/ 
 
 if __name__ == '__main__':
-    from sample_boards import b1
-
-    pl = DFSPlayer(b1)
+    from sample_boards import *
+    from sys import argv
+     
+    if len(argv) == 1:
+        pl = DFSPlayer(b1)
+    else:
+        pl = DFSPlayer(eval(argv[1]))
     pl.solve_board()
+
+
 
 
 '''Thoughts here:
