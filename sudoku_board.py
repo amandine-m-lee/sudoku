@@ -162,8 +162,3 @@ class Column(Unit):
     - Pay more attention to where I throw exceptions...
     - Check that starter board is valid"""
 
-
-
-
-
-

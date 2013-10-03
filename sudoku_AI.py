@@ -9,7 +9,7 @@ class DFSPlayer(object):
     
     def __init__(self, board):
         self.board = board
-        self.plays = [] #This can actually act like a log now
+        self.plays = [] #A log of steps
         self.open_cells = self.get_open_cells(self.board)
         self.cell_index = 0
         self.cur_row, self.cur_col = self.open_cells[0]
@@ -17,15 +17,14 @@ class DFSPlayer(object):
 
     def next_play(self):
         self.board.print_board()   
-        try:
-            num = next(self.tracker[-1])
+        for num in (self.tracker[-1]):
             self.board.add_number(num, self.cur_row, self.cur_col)
             self.plays.append((num, self.cur_row, self.cur_col))
             self.increment_coord()
             self.tracker.append(self.poss(self.cur_row, self.cur_col, self.board))
             return num 
 
-        except StopIteration:
+        else:
             self.tracker.pop()
             self.decrement_coord()
             self.board.remove_number(self.cur_row, self.cur_col)
@@ -57,7 +56,7 @@ class DFSPlayer(object):
         else:
             raise NoSolutions
 
-    def poss(self, row, col, board): # A generator. Will i run into problems as i mutate stae?
+    def poss(self, row, col, board): # A generator that goes through every possible number
         for i in range(1,10):
             if board.valid_play(i, row, col):
                 yield i
@@ -70,9 +69,6 @@ class DFSPlayer(object):
                     ret.append((i+1, j+1))
         return ret
 
-
-    #If it does't have nxt, then wahta/ 
-
 if __name__ == '__main__':
     from sample_boards import *
     from sys import argv
@@ -82,21 +78,4 @@ if __name__ == '__main__':
     else:
         pl = DFSPlayer(eval(argv[1]))
     pl.solve_board()
-
-
-
-
-'''Thoughts here:
-    - Pass it a board object? Or something else?
-    - Ideas I had - trigger pairs. 
-    - Go methodically through and
-    - I like the idea of doing this as not so much procedural as functional programming. It would actually be really useful.
-    
-    TACTICS:
-    - Look for
-    - Iterate back and forth between updating possibles and assigning values.
-    - What if I kept the board in python and then accessed it in Haskell or soemthing to write the functional implementation?'''
-
-
-
    
