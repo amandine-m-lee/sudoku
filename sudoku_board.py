@@ -15,7 +15,7 @@ class SudokuNonRemovableError(Exception):
     pass
 
 class Board(object):
-
+    #TODO: refactor to access grid using 1 indexing. 
     def __init__(self, start_board=None): #start_board should be a 9x9 array with 0 as a placeholder
         self.grid = [[0 for _ in range(9)] for _ in range(9)]
         self.removable = [[True for _ in range(9)] for _ in range(9)]
@@ -30,6 +30,11 @@ class Board(object):
                     if n != 0:
                         self.add_number(n, x+1, y+1)
                         self.removable[x][y] = False
+
+    def num_at(self, row_label, col_label):
+        row = row_label - 1
+        col = col_label - 1
+        return self.grid[row][col]
 
 
     def print_board(self):
