@@ -33,7 +33,7 @@ def sb():
 
 def test_add_number(sb): #if you think about it, these test aren't really naive to my implementation... 
     sb.add_number(7,9,5)
-    assert sb.grid[8][4] == 7
+    assert sb.num_at(9,5) == 7
     assert 7 in sb.cols[8].nums
     assert 7 in sb.rows[4].nums
     assert 7 in sb.boxes[2][1].nums
@@ -53,7 +53,7 @@ def test_add_number_exceptions(sb):
 def test_remove_number(sb):
     sb.add_number(1,1,1)
     assert sb.remove_number(1,1) == 1
-    assert sb.grid[1][1] == 0
+    assert sb.num_at(1,1) == 0
     assert 1 not in sb.cols[0].nums
     assert 1 not in sb.rows[0].nums
     assert 1 not in sb.boxes[0][0].nums
