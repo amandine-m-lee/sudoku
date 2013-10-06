@@ -6,14 +6,19 @@ class NoSolutions(Exception):
     pass
 
 class DFSPlayer(object):
+    #TODO: refactor so that you can feed the players multiple boards. 
     
-    def __init__(self, board):
+    def __init__(self, board=None):
         self.board = board
         self.plays = [] #A log of steps
-        self.open_cells = self.get_open_cells(self.board)
-        self.cell_index = 0
-        self.cur_row, self.cur_col = self.open_cells[0]
-        self.tracker = [self.poss(self.cur_row, self.cur_col, self.board)]
+        if board is not None:
+            self.open_cells = self.get_open_cells(self.board)
+            self.cell_index = 0
+            self.cur_row, self.cur_col = self.open_cells[0]
+            self.tracker = [self.poss(self.cur_row, self.cur_col, self.board)]
+
+    def new_board(self, board): #Ability to pass in a new board and do analysis again.
+        self.__init__(board)
 
     def next_play(self):
         self.board.print_board()   
@@ -75,25 +80,33 @@ class SmarterPlayer(object):
         self.board = b
         self.scells = [[SmartCell(b, i, j) for i in range(1,10)] \
                 for j in range(1,10)]
-        self.initial_dependencies() #Never sure whether to pass in members of self
+        self.initial_dependencies(self.scells) #Never sure whether to pass in members of self
 
 #TODO: Finish the box part
-    def initial_dependencies(self):
+#NOTE: Wouldn't it be useful to sue the box/col/row functionality in here somewhere? though there is a logical separation between the board which enforces the constraints of the game and a player that uses them logically 
+    def initial_dependencies(self, smartc):
         for rindex in range(9):
             for cindex in range(9):
-                rowmates = zip([rindex]*8, [n for n in range(9)].remove(cindex))
-                colmates = zip([n for n in range(9)].remove(rindex), [cindex]*8)
-                boxrow = rindex//3
-                boxcol = cindex//3
-                boxmates = zip([
-                for rmate in rowmates.extend(colmates).extend(boxmates):
+                rowmates = self.get_rowmates(rindex, cindex)
+                colmates = self.get_colmates(rindex, cindex)
+                boxmates = self.get_boxmates(rindex, cindex)
+                for rmate in rowmates + colmates + boxmates:
                     row, col = rmate
-                    self.scells.dependencies.append(self.scells[row][col])
+                    smartc.dependencies.append(self.scells[row][col])
 #TODO: Test how far this gets without any further strategy
 
 #TODO: Develop further strategies. 
+    def get_rowmates(rindex, cindex):
+        return list(zip([rindex]*8, [n for n in range(9) if n!=cindex]))
 
+    def get_colmates(rindex, cindex):
+        return list(zip([n for n in range(9) if n!=rindex], [cindex]*8))
 
+    def get_boxmates(rindex, cindex):
+        boxrow = 3*(rindex//3)
+        boxcol = 3*(cindex//3)
+        return list(zip(map(lambda x:x+boxrow,[0,1,2]*3),\
+            map(lambda x:x+boxcol,[0]*3+[1]*3+[2]*3)))
 
 class SmartCell(object):
 
