@@ -96,12 +96,15 @@ class SmarterPlayer(object):
 #TODO: Test how far this gets without any further strategy
 
 #TODO: Develop further strategies. 
+    @staticmethod
     def get_rowmates(rindex, cindex):
         return list(zip([rindex]*8, [n for n in range(9) if n!=cindex]))
 
+    @staticmethod
     def get_colmates(rindex, cindex):
         return list(zip([n for n in range(9) if n!=rindex], [cindex]*8))
 
+    @staticmethod
     def get_boxmates(rindex, cindex):
         boxrow = 3*(rindex//3)
         boxcol = 3*(cindex//3)
