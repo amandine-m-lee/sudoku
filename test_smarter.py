@@ -1,9 +1,9 @@
 from sudoku_AI import *
 import pytest
+from sample_boards import b1,b2
 
 @pytest.fixture
 def smarter():
-    from sample_boards import b1
     return SmarterPlayer(b1)
 
 def test_matematching(): #NOTE: you can use the individual functions from a class separately, I would assume
@@ -20,5 +20,13 @@ def test_matematching(): #NOTE: you can use the individual functions from a clas
     z.sort()
     assert third == z 
 
+def test_basic_dependencies():
+    pass
+
+def test_smart_cell():
+    smc_boring = SmartCell(b2, 1, 1)
+    assert smc_boring.possibilities == [2]
+    smc_interesting = SmartCell(b2, 3, 4)
+    assert smc_interesting.possibilities == list(range(1,10))
 
 

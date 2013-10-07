@@ -78,7 +78,7 @@ class SmarterPlayer(object):
     
     def __init__(self, b):
         self.board = b
-        self.scells = [[SmartCell(b, i, j) for i in range(1,10)] \
+        self.scells = [SmartCell(b, i, j) for i in range(1,10) \
                 for j in range(1,10)]
         self.initial_dependencies(self.scells) #Never sure whether to pass in members of self
 
@@ -117,7 +117,8 @@ class SmartCell(object):
         self.board = b
         self.row = row
         self.col = col
-        self.possibilities = [i in range(1,10)]
+        self.possibilities = list(range(1,10)) if self.board.num_at(row, col) == 0\
+              else [self.board.num_at(row, col)]
         self.dependencies = []
 
     def remove_poss(self, num):
@@ -131,9 +132,7 @@ class SmartCell(object):
                 self.board.add_number(last, row, col)
                 for dep in self.dependencies:
                     dep.remove_poss(last)
-
-
-
+    
 if __name__ == '__main__':
     from sample_boards import *
     from sys import argv
